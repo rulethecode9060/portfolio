@@ -15,5 +15,10 @@ public class AuthController {
         return "auth/signin";
     }
 
+    @GetMapping("/auth/signup")
+    public String signUpPage(){
+        return "auth/signup";
+    }
+
 
 }
