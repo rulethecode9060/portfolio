@@ -5,6 +5,7 @@ import com.portfolio.sns.repository.AuthRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * The type Auth service.
@@ -23,6 +24,7 @@ public class AuthService {
      * @date : 2023.07.13
      * @description : 회원 가입 요청(Service -> Repository)
      */
+    @Transactional
     public User signup(User user){
         String rawPassword = user.getPassword();
         String encPassword = bCryptPasswordEncoder.encode(rawPassword);
