@@ -72,14 +72,14 @@ public class AuthController {
 
     /**
      * @return string
-     * @methodName : stroy
+     * @methodName : upload
      * @author : rulethecode9060
      * @date : 2023.07.14
      * @description : 임시 메인 페이지로 이동
      */
-    @GetMapping({"/", "image/story"})
-    public String stroy(){
-        return "image/story";
+    @GetMapping({"/", "image/upload"})
+    public String upload(){
+        return "image/upload";
     }
 
 
