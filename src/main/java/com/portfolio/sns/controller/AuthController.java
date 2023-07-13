@@ -48,8 +48,8 @@ public class AuthController {
     }
 
     /**
-     * @param signUpDto
-     * @param bindingResult
+     * @param sign    up dto
+     * @param binding result
      * @return string
      * @methodName : signup
      * @author : rulethecode9060
@@ -67,6 +67,19 @@ public class AuthController {
         }
         authService.signup(signUpDto.toEntity());
         return "redirect:/auth/signin";
+    }
+
+
+    /**
+     * @return string
+     * @methodName : upload
+     * @author : rulethecode9060
+     * @date : 2023.07.14
+     * @description : 임시 메인 페이지로 이동
+     */
+    @GetMapping({"/", "image/upload"})
+    public String upload(){
+        return "image/upload";
     }
 
 
