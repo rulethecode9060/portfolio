@@ -8,10 +8,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * The type Image controller.
@@ -45,9 +48,17 @@ public class ImageController {
     @PostMapping("/image")
     public String imageUpload(@Valid ImageUploadDto imageUploadDto, BindingResult bindingResult, @AuthenticationPrincipal PrincipalDetails principalDetails
     ){
+        if(bindingResult.hasErrors()){
+            Map<String, String> errorMap = new HashMap<>();
+            for(FieldError error : bindingResult.getFieldErrors()){
+                errorMap.put(error.getField(), error.getDefaultMessage());
+            }
+            throw new CustomValidationException("이미지 업로드 실패", errorMap);
+        }
         if(imageUploadDto.getFile().isEmpty()){
             throw new CustomValidationException("이미지 파일이 첨부되지 않았습니다.", null);
         }
+
         imageService.imageUpload(imageUploadDto, principalDetails);
         return "redirect:/user/"+principalDetails.getUser().getId();
     }
