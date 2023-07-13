@@ -14,21 +14,48 @@ import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * The type Auth controller.
+ */
 @Controller
 @RequiredArgsConstructor
 public class AuthController {
     private final AuthService authService;
 
+
+    /**
+     * @return string
+     * @methodName : signInPage
+     * @author : rulethecode9060
+     * @date : 2023.07.13
+     * @description : 로그인 페이지로 이동
+     */
     @GetMapping("/auth/signin")
     public String signInPage(){
         return "auth/signin";
     }
 
+    /**
+     * @return string
+     * @methodName : signUpPage
+     * @author : rulethecode9060
+     * @date : 2023.07.13
+     * @description : 회원가입 페이지로 이동
+     */
     @GetMapping("/auth/signup")
     public String signUpPage(){
         return "auth/signup";
     }
 
+    /**
+     * @param signUpDto
+     * @param bindingResult
+     * @return string
+     * @methodName : signup
+     * @author : rulethecode9060
+     * @date : 2023.07.13
+     * @description : 회원 가입 요청
+     */
     @PostMapping("/auth/signup")
     public String signup(@Valid SignUpDto signUpDto, BindingResult bindingResult){
         if(bindingResult.hasErrors()){
