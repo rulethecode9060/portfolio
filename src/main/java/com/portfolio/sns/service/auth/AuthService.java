@@ -15,5 +15,20 @@ public class AuthService {
     private final AuthRepository authRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-
+    /**
+     * @param user
+     * @return user
+     * @methodName : signup
+     * @author : rulethecode9060
+     * @date : 2023.07.13
+     * @description : 회원 가입 요청(Service -> Repository)
+     */
+    public User signup(User user){
+        String rawPassword = user.getPassword();
+        String encPassword = bCryptPasswordEncoder.encode(rawPassword);
+        user.setPassword(encPassword);
+        user.setRole("ROLE_USER");
+        User userEntity = authRepository.save(user);
+        return userEntity;
+    }
 }
