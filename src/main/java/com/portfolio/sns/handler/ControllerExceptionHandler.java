@@ -1,5 +1,6 @@
 package com.portfolio.sns.handler;
 
+import com.portfolio.sns.exception.CustomException;
 import com.portfolio.sns.exception.CustomValidationException;
 import com.portfolio.util.Script;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -23,6 +24,19 @@ public class ControllerExceptionHandler {
      */
     @ExceptionHandler(CustomValidationException.class)
     public String validationException(CustomValidationException e){
+        return Script.back(e.getMessage());
+    }
+
+    /**
+     * @param e
+     * @return string
+     * @methodName : exception
+     * @author : rulethecode9060
+     * @date : 2023.07.15
+     * @description : 일반적인 커스텀 예외 처리 핸들러
+     */
+    @ExceptionHandler(CustomException.class)
+    public String exception(CustomException e){
         return Script.back(e.getMessage());
     }
 

@@ -1,5 +1,6 @@
 package com.portfolio.sns.controller;
 
+import com.portfolio.sns.domain.User;
 import com.portfolio.sns.dto.auth.PrincipalDetails;
 import com.portfolio.sns.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -39,7 +40,9 @@ public class UserController {
      * @description : 회원 번호에 해당하는 프로필 페이지로 이동
      */
     @GetMapping("/user/{pageUserId}")
-    public String profilePage() {
+    public String profilePage(@AuthenticationPrincipal PrincipalDetails principalDetails, @PathVariable int pageUserId, Model model) {
+        User userEntity = userService.profile(pageUserId);
+        model.addAttribute("user", userEntity);
         return "user/profile";
     }
 

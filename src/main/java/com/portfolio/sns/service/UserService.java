@@ -8,6 +8,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * The type User service.
+ */
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -34,6 +37,22 @@ public class UserService {
         userEntity.setBio(user.getBio());
         userEntity.setPhone(user.getPhone());
         userEntity.setGender(user.getGender());
+        return userEntity;
+    }
+
+    /**
+     * @param userId
+     * @return user
+     * @methodName : profile
+     * @author : rulethecode9060
+     * @date : 2023.07.15
+     * @description : 해당 회원 번호의 프로필 데이터를 받아옴
+     */
+    @Transactional(readOnly = true)
+    public User profile(int userId){
+        User userEntity = userRepository.findById(userId).orElseThrow(() -> {
+            throw new CustomException("해당 프로필 페이지는 없는 페이지입니다.");
+        });
         return userEntity;
     }
 
