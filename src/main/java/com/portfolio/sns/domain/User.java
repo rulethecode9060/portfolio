@@ -1,9 +1,11 @@
 package com.portfolio.sns.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Comment;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -74,6 +76,7 @@ public class User {
     private String role;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    @JsonIgnoreProperties({"user"})
     private List<Image> images;
 
     /**
