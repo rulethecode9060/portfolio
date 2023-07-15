@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * The type User.
@@ -71,6 +72,9 @@ public class User {
      * 권한
      */
     private String role;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    private List<Image> images;
 
     /**
      * @methodName : createDate
