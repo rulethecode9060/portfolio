@@ -2,6 +2,7 @@ package com.portfolio.sns.handler;
 
 import com.portfolio.sns.dto.common.CommonResponseDto;
 import com.portfolio.sns.exception.CustomAPIException;
+import com.portfolio.sns.exception.CustomAPIValidationException;
 import com.portfolio.sns.exception.CustomException;
 import com.portfolio.sns.exception.CustomValidationException;
 import com.portfolio.util.Script;
@@ -28,7 +29,11 @@ public class ControllerExceptionHandler {
      */
     @ExceptionHandler(CustomValidationException.class)
     public String validationException(CustomValidationException e){
-        return Script.back(e.getMessage());
+        if(e.getErrorMap()==null){
+            return Script.back(e.getMessage());
+        } else {
+            return Script.back(e.getErrorMap().toString());
+        }
     }
 
     /**
@@ -52,8 +57,8 @@ public class ControllerExceptionHandler {
      * @date : 2023.07.16
      * @description : API 유효성 검증 실패 처리 핸들러
      */
-    @ExceptionHandler(CustomValidationException.class)
-    public ResponseEntity<?> apiValidationException(CustomValidationException e){
+    @ExceptionHandler(CustomAPIValidationException.class)
+    public ResponseEntity<?> apiValidationException(CustomAPIValidationException e){
         return new ResponseEntity<>(new CommonResponseDto<>(-1, e.getMessage(), e.getErrorMap()), HttpStatus.BAD_REQUEST);
     }
 
