@@ -10,8 +10,8 @@ import org.springframework.data.jpa.repository.Query;
  */
 public interface SubscribeRepository extends JpaRepository<Subscribe, Integer> {
     /**
-     * @param fromUserId
-     * @param toUserId
+     * @param from user id
+     * @param to   user id
      * @methodName : subscribe
      * @author : rulethecode9060
      * @date : 2023.07.16
@@ -22,8 +22,8 @@ public interface SubscribeRepository extends JpaRepository<Subscribe, Integer> {
     void subscribe(int fromUserId, int toUserId);
 
     /**
-     * @param fromUserId
-     * @param toUserId
+     * @param from user id
+     * @param to   user id
      * @methodName : unSubscribe
      * @author : rulethecode9060
      * @date : 2023.07.16
@@ -32,5 +32,28 @@ public interface SubscribeRepository extends JpaRepository<Subscribe, Integer> {
     @Modifying
     @Query(value = "DELETE FROM subscribe WHERE fromUserId = :fromUserId AND toUserId = :toUserId", nativeQuery = true)
     void unSubscribe(int fromUserId, int toUserId);
+
+    /**
+     * @param pageUserId
+     * @return int
+     * @methodName : subscribeCount
+     * @author : rulethecode9060
+     * @date : 2023.07.18
+     * @description : 현재 프로필 페이지 회원의 구독자 수를 반환
+     */
+    @Query(value = "SELECT COUNT(*) FROM subscribe WHERE fromUserId=:pageUserId", nativeQuery = true)
+    int subscribeCount(int pageUserId);
+
+    /**
+     * @param principalId
+     * @param pageUserId
+     * @return int
+     * @methodName : subscribeState
+     * @author : rulethecode9060
+     * @date : 2023.07.18
+     * @description : 로그인한 사용자가 해당 페이지의 회원을 구독하고 있는지 여부를 반환
+     */
+    @Query(value = "SELECT COUNT(*) FROM subscribe WHERE fromUserId = :principalId AND toUserId = :pageUserId", nativeQuery = true)
+    int subscribeState(int principalId, int pageUserId);
 
 }
