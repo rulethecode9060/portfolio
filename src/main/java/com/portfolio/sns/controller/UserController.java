@@ -2,6 +2,7 @@ package com.portfolio.sns.controller;
 
 import com.portfolio.sns.domain.User;
 import com.portfolio.sns.dto.auth.PrincipalDetails;
+import com.portfolio.sns.dto.user.UserProfileDto;
 import com.portfolio.sns.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -41,8 +42,8 @@ public class UserController {
      */
     @GetMapping("/user/{pageUserId}")
     public String profilePage(@AuthenticationPrincipal PrincipalDetails principalDetails, @PathVariable int pageUserId, Model model) {
-        User userEntity = userService.profile(pageUserId);
-        model.addAttribute("user", userEntity);
+        UserProfileDto userProfileDto = userService.profile(principalDetails.getUser().getId(), pageUserId);
+        model.addAttribute("userProfileDto", userProfileDto);
         return "user/profile";
     }
 
