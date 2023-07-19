@@ -35,6 +35,7 @@ dependencies {
 	implementation 'javax.servlet:jstl'
 	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: '2.7.13'
 	implementation 'org.springframework.security:spring-security-taglibs'
+	implementation group: 'org.qlrm', name: 'qlrm', version: '2.1.1'
 
 }
 
