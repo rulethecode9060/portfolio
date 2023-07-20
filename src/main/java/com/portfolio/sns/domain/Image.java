@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Data
@@ -47,6 +48,22 @@ public class Image {
     private User user;
 
     // 이미지 좋아요
+    @OneToMany(mappedBy = "image")
+    @JsonIgnoreProperties({"image"})
+    private List<Likes> likes;
+
+    /**
+     * 좋아요 상태
+     */
+    @Transient
+    private boolean likeState;
+
+    /**
+     * 좋아요 수
+     */
+    @Transient
+    private int likeCount;
+
 
     // 댓글
 
