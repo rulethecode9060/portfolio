@@ -1,5 +1,6 @@
 package com.portfolio.sns.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -40,8 +41,9 @@ public class Image {
     /**
      * 업로드한 사람
      */
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "userId")
+    @JsonIgnoreProperties({"images"})
     private User user;
 
     // 이미지 좋아요

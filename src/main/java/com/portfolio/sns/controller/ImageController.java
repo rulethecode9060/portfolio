@@ -31,13 +31,26 @@ public class ImageController {
      * @date : 2023.07.14
      * @description : 업로드 페이지로 이동
      */
-    @GetMapping({"/", "image/upload"})
+    @GetMapping({"image/upload"})
     public String upload(){
         return "image/upload";
     }
 
     /**
+     * @return string
+     * @methodName : story
+     * @author : rulethecode9060
+     * @date : 2023.07.20
+     * @description : 스토리(메인) 페이지로 이동
+     */
+    @GetMapping({"/", "image/story"})
+    public String story(){
+        return "image/story";
+    }
+
+    /**
      * @param imageUploadDto
+     * @param bindingResult
      * @param principalDetails
      * @return string
      * @methodName : imageUpload

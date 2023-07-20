@@ -6,6 +6,8 @@ import com.portfolio.sns.dto.image.ImageUploadDto;
 import com.portfolio.sns.repository.ImageRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,8 +16,12 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.UUID;
 
+/**
+ * The type Image service.
+ */
 @Service
 @RequiredArgsConstructor
 public class ImageService {
@@ -24,6 +30,14 @@ public class ImageService {
     @Value("${file.path}")
     private String uploadFolder;
 
+    /**
+     * @param imageUploadDto
+     * @param principalDetails
+     * @methodName : imageUpload
+     * @author : rulethecode9060
+     * @date : 2023.07.14
+     * @description : 이미지 업로드 정보 등록(Service->Repository)
+     */
     @Transactional
     public void imageUpload(ImageUploadDto imageUploadDto, @AuthenticationPrincipal PrincipalDetails principalDetails){
         UUID uuid = UUID.randomUUID();
@@ -36,5 +50,20 @@ public class ImageService {
         }
         Image imageEntity = imageUploadDto.toEntity(iamgeFileName, principalDetails.getUser());
         imageRepository.save(imageEntity);
+    }
+
+    /**
+     * @param principalId
+     * @param pageable
+     * @return page
+     * @methodName : story
+     * @author : rulethecode9060
+     * @date : 2023.07.20
+     * @description : 스토리(메인) 페이지 이미지 조회(Service->Repository)
+     */
+    @Transactional(readOnly = true)
+    public Page<Image> story(int principalId, Pageable pageable){
+        Page<Image> images = imageRepository.story(principalId, pageable);
+        return images;
     }
 }
