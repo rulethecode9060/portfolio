@@ -2,13 +2,22 @@ package com.portfolio.sns.service;
 
 import com.portfolio.sns.domain.User;
 import com.portfolio.sns.dto.user.UserProfileDto;
+import com.portfolio.sns.exception.CustomAPIException;
 import com.portfolio.sns.exception.CustomException;
 import com.portfolio.sns.repository.SubscribeRepository;
 import com.portfolio.sns.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.UUID;
 
 /**
  * The type User service.
@@ -19,6 +28,8 @@ public class UserService {
     private final UserRepository userRepository;
     private final SubscribeRepository subscribeRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    @Value("${file.path}")
+    private String uploadFolder;
 
     /**
      * @param id
@@ -44,8 +55,9 @@ public class UserService {
     }
 
     /**
-     * @param userId
-     * @return user
+     * @param principal id
+     * @param page      user id
+     * @return user profile dto
      * @methodName : profile
      * @author : rulethecode9060
      * @date : 2023.07.15
@@ -69,5 +81,32 @@ public class UserService {
         });
         return userProfileDto;
     }
+
+    /**
+     * @param principalId
+     * @param profileImageFile
+     * @return user
+     * @methodName : updateProfileImage
+     * @author : rulethecode9060
+     * @date : 2023.07.31
+     * @description : 프로필 이미지 변경(Service->Repository)
+     */
+    @Transactional
+    public User updateProfileImage(int principalId, MultipartFile profileImageFile){
+        UUID uuid = UUID.randomUUID();
+        String imageFileName = uuid + "_" + profileImageFile.getOriginalFilename();
+        Path imageFilePath = Paths.get(uploadFolder + imageFileName);
+        try {
+            Files.write(imageFilePath, profileImageFile.getBytes());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        User userEntity = userRepository.findById(principalId).orElseThrow(() -> {
+            throw new CustomAPIException("유저를 찾을 수 없습니다.");
+        });
+        userEntity.setProfileImageUrl(imageFileName);
+        return userEntity;
+    }
+
 
 }
