@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.HashMap;
@@ -36,10 +37,10 @@ public class UserApiController {
 
     /**
      * @param id
-     * @param userUpdateDto
-     * @param bindingResult
-     * @param principalDetails
-     * @return commonResponseDto
+     * @param user      update dto
+     * @param binding   result
+     * @param principal details
+     * @return commonResponseDto response dto
      * @methodName : modifyUserInfo
      * @author : rulethecode9060
      * @date : 2023.07.14
@@ -60,9 +61,9 @@ public class UserApiController {
     }
 
     /**
-     * @param pageUserId
-     * @param principalDetails
-     * @return commonResponseDto
+     * @param page      user id
+     * @param principal details
+     * @return commonResponseDto entity
      * @methodName : subscribeList
      * @author : rulethecode9060
      * @date : 2023.07.20
@@ -70,8 +71,24 @@ public class UserApiController {
      */
     @GetMapping("/api/user/{pageUserId}/subscribe")
     public ResponseEntity<?> subscribeList(@PathVariable int pageUserId, @AuthenticationPrincipal PrincipalDetails principalDetails){
-        System.out.println("구독 목록 불러오기");
         List<SubscribeDto> subscribeDtos = subscribeService.subscribeList(principalDetails.getUser().getId(), pageUserId);
         return new ResponseEntity<>(new CommonResponseDto<>(1, "구독 리스트 가져오기 성공", subscribeDtos), HttpStatus.OK);
+    }
+
+    /**
+     * @param principalId
+     * @param profileImageFile
+     * @param principalDetails
+     * @return responseEntity
+     * @methodName : profileImageUrlUpdate
+     * @author : rulethecode9060
+     * @date : 2023.07.31
+     * @description : 프로필 이미지 변경 요청
+     */
+    @PutMapping("/api/user/{principalId}/profileImageUrl")
+    public ResponseEntity<?> profileImageUrlUpdate(@PathVariable int principalId, MultipartFile profileImageFile, @AuthenticationPrincipal PrincipalDetails principalDetails){
+        User userEntity = userService.updateProfileImage(principalId, profileImageFile);
+        principalDetails.setUser(userEntity);
+        return new ResponseEntity<>(new CommonResponseDto<>(1, "프로필 사진 변경 성공", null), HttpStatus.OK);
     }
 }

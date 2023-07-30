@@ -41,14 +41,14 @@ public class ImageService {
     @Transactional
     public void imageUpload(ImageUploadDto imageUploadDto, @AuthenticationPrincipal PrincipalDetails principalDetails){
         UUID uuid = UUID.randomUUID();
-        String iamgeFileName = uuid + "_" + imageUploadDto.getFile().getOriginalFilename();
-        Path imageFilePath = Paths.get(uploadFolder + iamgeFileName);
+        String imageFileName = uuid + "_" + imageUploadDto.getFile().getOriginalFilename();
+        Path imageFilePath = Paths.get(uploadFolder + imageFileName);
         try {
             Files.write(imageFilePath, imageUploadDto.getFile().getBytes());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        Image imageEntity = imageUploadDto.toEntity(iamgeFileName, principalDetails.getUser());
+        Image imageEntity = imageUploadDto.toEntity(imageFileName, principalDetails.getUser());
         imageRepository.save(imageEntity);
     }
 
