@@ -74,4 +74,17 @@ public class ImageService {
         });
         return images;
     }
+
+    /**
+     * @return list
+     * @methodName : popular
+     * @author : rulethecode9060
+     * @date : 2023.07.30
+     * @description : 인기 이미지 조회(Service->Repository)
+     */
+    @Transactional(readOnly = true)
+    public List<Image> popular(){
+        List<Image> images = imageRepository.popular();
+        return images;
+    }
 }
