@@ -4,6 +4,7 @@ import com.portfolio.sns.domain.Likes;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 /**
  * The interface Likes repository.
@@ -22,7 +23,7 @@ public interface LikesRepository extends JpaRepository<Likes, Integer> {
      */
     @Modifying
     @Query(value = "INSERT INTO likes(imageId, userId, createDate) VALUES(:imageId, :principalId, now())", nativeQuery = true)
-    int likes(int imageId, int principalId);
+    int likes(@Param("imageId") int imageId, @Param("principalId") int principalId);
 
     /**
      * @param imageId
@@ -35,5 +36,5 @@ public interface LikesRepository extends JpaRepository<Likes, Integer> {
      */
     @Modifying
     @Query(value = "DELETE FROM likes WHERE imageId = :imageId AND userId = :principalId", nativeQuery = true)
-    int unLikes(int imageId, int principalId);
+    int unLikes(@Param("imageId") int imageId, @Param("principalId") int principalId);
 }

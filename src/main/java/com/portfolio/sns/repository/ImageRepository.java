@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -22,5 +23,8 @@ public interface ImageRepository extends JpaRepository<Image, Integer> {
      * @description : 스토리(메인) 페이지 이미지 조회
      */
     @Query(value = "SELECT * FROM image WHERE userId IN(SELECT toUserId FROM subscribe WHERE fromUserId = :principalId) ORDER BY createDate DESC", nativeQuery = true)
-    Page<Image> story(int principalId, Pageable pageable);
+    Page<Image> story(@Param("principalId") int principalId, Pageable pageable);
+
+//    @Query(value = "", nativeQuery = true)
+//    List<Image> popular();
 }
