@@ -66,6 +66,10 @@ public class Image {
 
 
     // 댓글
+    @OrderBy("id DESC")
+    @JsonIgnoreProperties({"image"})
+    @OneToMany(mappedBy = "image")
+    private List<Comment> comments;
 
 
     /**
