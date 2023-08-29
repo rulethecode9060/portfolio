@@ -37,6 +37,8 @@ dependencies {
 	implementation 'org.springframework.security:spring-security-taglibs'
 	implementation group: 'org.qlrm', name: 'qlrm', version: '2.1.1'
 	implementation 'org.springframework.boot:spring-boot-starter-aop:2.7.13'
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-oauth2-client', version: '2.7.13'
+
 
 
 }
