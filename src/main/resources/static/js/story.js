@@ -66,7 +66,7 @@ function getStoryItem(image) {
 					<span class="like"><b id="storyLikeCount-${image.id}">${image.likeCount}</b>likes</span>
 
 					<div class="sl__item__contents__content">
-						<p>등산하는 것이 너무 재밌네요</p>
+						<p>${image.caption}</p>
 					</div>
 
 					<div id="storyCommentList-${image.id}">`;

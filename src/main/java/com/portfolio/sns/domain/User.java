@@ -29,7 +29,7 @@ public class User {
     /**
      * 계정 ID
      */
-    @Column(unique = true, length = 20, nullable = false) // 계정 ID는 중복이 없어야 하므로
+    @Column(unique = true, length = 100, nullable = false) // 계정 ID는 중복이 없어야 하므로
     private String username;
     /**
      * 계정 패스워드
