@@ -58,13 +58,6 @@ public class AuthController {
      */
     @PostMapping("/auth/signup")
     public String signup(@Valid SignUpDto signUpDto, BindingResult bindingResult){
-        if(bindingResult.hasErrors()){
-            Map<String, String> errorMap = new HashMap<>();
-            for(FieldError error : bindingResult.getFieldErrors()){
-                errorMap.put(error.getField(), error.getDefaultMessage());
-            }
-            throw new CustomValidationException("회원 가입 유효성 검증 실패", errorMap);
-        }
         authService.signup(signUpDto.toEntity());
         return "redirect:/auth/signin";
     }
