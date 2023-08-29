@@ -1,5 +1,6 @@
 package com.portfolio.sns.config;
 
+import com.portfolio.sns.config.oauth.OAuth2DetailsService;
 import com.portfolio.sns.handler.auth.CustomAuthenticationFailureHandler;
 import com.portfolio.sns.handler.auth.CustomAuthenticationSuccessHandler;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
     private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
+    private final OAuth2DetailsService oAuth2DetailsService;
 
 
 
@@ -38,6 +40,10 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginProcessingUrl("/auth/signin")
                 .failureHandler(customAuthenticationFailureHandler)
                 .successHandler(customAuthenticationSuccessHandler)
-                .defaultSuccessUrl("/");
+                .defaultSuccessUrl("/")
+                .and()
+                .oauth2Login()
+                .userInfoEndpoint()
+                .userService(oAuth2DetailsService);
     }
 }
