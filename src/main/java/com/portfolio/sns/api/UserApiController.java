@@ -48,13 +48,6 @@ public class UserApiController {
      */
     @PutMapping("/api/user/{id}")
     public CommonResponseDto<?> modifyUserInfo(@PathVariable int id, @Valid UserUpdateDto userUpdateDto, BindingResult bindingResult, @AuthenticationPrincipal PrincipalDetails principalDetails){
-        if(bindingResult.hasErrors()){
-            Map<String, String> errorMap = new HashMap<>();
-            for(FieldError error : bindingResult.getFieldErrors()){
-                errorMap.put(error.getField(), error.getDefaultMessage());
-            }
-            throw new CustomAPIValidationException("회원 정보 수정 실패", errorMap);
-        }
         User userEntity = userService.modify(id, userUpdateDto.toEntity());
         principalDetails.setUser(userEntity);
         return new CommonResponseDto<>(1, "회원 정보 수정 성공", new UserUpdateDto(userEntity));
